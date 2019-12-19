@@ -73,7 +73,27 @@ Person.prototype.toString = function(){
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
+
+Car.prototype.fill = function(gallons) {
+  this.tank = this.tank + gallons;
+
+}
+
+Car.prototype.drive = function(distance, milesPerGallon){
+  this.odometer = this.odometer + distance;
+  this.tank = this.tank - (distance/this.milesPerGallon);
+
+  if(this.tank < 0){
+    this.tank = 0;
+    this.odometer = 200;
+    return `I ran out of fuel at ${this.odometer}miles!`;
+  };
 
 }
 
@@ -84,18 +104,25 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy){
+  Person.call(this,name,age)
+  this.favoriteToy = favoriteToy;
 
+}
+
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function (){
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window/Global Object Binding: If a function is written in global context and cosole logged (this), the value of this will be the window or console.
+  2. Implicit Binding: Implied if you are using a method on the Object, the context that you want is bound to the dot. Whenever a function by an Object with a preceding dot the Object gets 'this'.
+  3. New binding: When using a Constructor Function to create a new object we have to use the 'new' keyword when calling the function.
+  4. Explicit binding: Using the call or apply method is explicit binding.
 */
 
 
